@@ -35,5 +35,10 @@ func main() {
 		ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": message})
 	})
 
+	router.GET("/get-beyblade", func(ctx *gin.Context) {
+		message := "hello beyblade"
+		ctx.JSON(http.StatusOK, gin.H{"status": "success", "message": message})
+	})
+
 	log.Fatal(server.Run(":" + config.ServerPort))
 }
