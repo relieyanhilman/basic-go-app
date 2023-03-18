@@ -36,9 +36,9 @@ func (pc *PostController) CreatePost(ctx *gin.Context) {
 	//Setup new post
 	now := time.Now()
 	newPost := models.Post{
-		Title:     payload.Title,
-		Content:   payload.Content,
-		Image:     payload.Image,
+		Title:   payload.Title,
+		Content: payload.Content,
+		Image:   payload.Image,
 		// User:      currentUser.ID,
 		CreatedAt: now,
 		UpdatedAt: now,
@@ -84,9 +84,9 @@ func (pc *PostController) UpdatePost(ctx *gin.Context) {
 	//setup new post to be updated
 	now := time.Now()
 	postToUpdate := models.Post{
-		Title:     payload.Title,
-		Content:   payload.Content,
-		Image:     payload.Image,
+		Title:   payload.Title,
+		Content: payload.Content,
+		Image:   payload.Image,
 		// User:      currentUser.ID,
 		CreatedAt: updatedPost.CreatedAt,
 		UpdatedAt: now,
@@ -120,8 +120,12 @@ func (pc *PostController) FindPostById(ctx *gin.Context) {
 
 // get all post handler
 func (pc *PostController) FindPosts(ctx *gin.Context) {
+	//setup variable params for pagination
 	var page = ctx.DefaultQuery("page", "1")
 	var limit = ctx.DefaultQuery("limit", "10")
+
+	//setup variable params for filtering contents
+	// var contentFilter = ctx.DefaultQuery("content", "")
 
 	//convert string to int with strconv
 	intPage, _ := strconv.Atoi(page)
@@ -142,8 +146,8 @@ func (pc *PostController) FindPosts(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, gin.H{"status": "success", "results": len(posts), "data": posts})
 }
 
-//delete post handler
-func (pc *PostController) DeletePost(ctx *gin.Context){
+// delete post handler
+func (pc *PostController) DeletePost(ctx *gin.Context) {
 	//take the param
 	postId := ctx.Param("postId")
 
@@ -158,5 +162,4 @@ func (pc *PostController) DeletePost(ctx *gin.Context){
 
 	ctx.JSON(http.StatusNoContent, nil)
 
-	
 }
