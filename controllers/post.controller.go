@@ -40,7 +40,6 @@ func (pc *PostController) CreatePost(ctx *gin.Context) {
 		Content: payload.Content,
 		Image:   payload.Image,
 		// User:      currentUser.ID,
-		Likes:     payload.Likes, //this is just for testing
 		CreatedAt: now,
 		UpdatedAt: now,
 	}
