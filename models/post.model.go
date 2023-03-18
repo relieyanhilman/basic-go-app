@@ -31,6 +31,7 @@ type UpdatePost struct {
 	Title   string `json:"title,omitempty"`
 	Content string `json:"content,omitempty"`
 	Image   string `json:"image,omitempty"`
+	Likes   *int16 `json:"likes,omitempty"`
 	// User      string    `json:"user,omitempty"`
 	CreateAt  time.Time `json:"created_at,omitempty"`
 	UpdatedAt time.Time `json:"updated_at,omitempty"`

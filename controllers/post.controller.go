@@ -40,6 +40,7 @@ func (pc *PostController) CreatePost(ctx *gin.Context) {
 		Content: payload.Content,
 		Image:   payload.Image,
 		// User:      currentUser.ID,
+		Likes:     payload.Likes, //this is just for testing
 		CreatedAt: now,
 		UpdatedAt: now,
 	}
@@ -88,6 +89,7 @@ func (pc *PostController) UpdatePost(ctx *gin.Context) {
 		Content: payload.Content,
 		Image:   payload.Image,
 		// User:      currentUser.ID,
+		Likes:     payload.Likes,
 		CreatedAt: updatedPost.CreatedAt,
 		UpdatedAt: now,
 	}
@@ -122,21 +124,27 @@ func (pc *PostController) FindPostById(ctx *gin.Context) {
 func (pc *PostController) FindPosts(ctx *gin.Context) {
 	//setup variable params for pagination
 	var page = ctx.DefaultQuery("page", "1")
-	var limit = ctx.DefaultQuery("limit", "10")
+	var limit = ctx.DefaultQuery("limit", "0")
 
-	//setup variable params for filtering contents
-	// var contentFilter = ctx.DefaultQuery("content", "")
+	//setup variables params for filtering likes attribute
+	var likesGt = ctx.DefaultQuery("likesGt", "0")
+	var likesLt = ctx.DefaultQuery("likesLt", "999999")
 
 	//convert string to int with strconv
 	intPage, _ := strconv.Atoi(page)
 	intLimit, _ := strconv.Atoi(limit)
+	intLikesGt, _ := strconv.Atoi(likesGt)
+	intLikesLt, _ := strconv.Atoi(likesLt)
+
+	intLikesGt16 := int16(intLikesGt)
+	intLikesLt16 := int16(intLikesLt)
 
 	//define how many records that will be skipped before starting to return the records
 	offset := (intPage - 1) * intLimit
 
 	//get all post and error checking
 	var posts []models.Post
-	results := pc.DB.Limit(intLimit).Offset(offset).Find(&posts)
+	results := pc.DB.Where("likes >= ? AND likes <= ?", intLikesGt16, intLikesLt16).Limit(intLimit).Offset(offset).Find(&posts)
 	if results.Error != nil {
 		ctx.JSON(http.StatusBadGateway, gin.H{"status": "error", "message": results.Error})
 		return
