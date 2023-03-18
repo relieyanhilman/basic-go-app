@@ -23,7 +23,8 @@ func NewPostController(DB *gorm.DB) PostController {
 // Create Post Handler
 func (pc *PostController) CreatePost(ctx *gin.Context) {
 	//Take the param
-	currentUser := ctx.MustGet("currentUser").(models.User)
+	//uncomment after configure the user authentication
+	// currentUser := ctx.MustGet("currentUser").(models.User)
 
 	//Error check for validating the request.body
 	var payload *models.CreatePostRequest
@@ -38,7 +39,7 @@ func (pc *PostController) CreatePost(ctx *gin.Context) {
 		Title:     payload.Title,
 		Content:   payload.Content,
 		Image:     payload.Image,
-		User:      currentUser.ID,
+		// User:      currentUser.ID,
 		CreatedAt: now,
 		UpdatedAt: now,
 	}
@@ -63,7 +64,7 @@ func (pc *PostController) UpdatePost(ctx *gin.Context) {
 
 	//Take the params
 	postId := ctx.Param("postId")
-	currentUser := ctx.MustGet("currentUser").(models.User)
+	// currentUser := ctx.MustGet("currentUser").(models.User)
 
 	//error check for the request.body
 	var payload *models.UpdatePost
@@ -86,7 +87,7 @@ func (pc *PostController) UpdatePost(ctx *gin.Context) {
 		Title:     payload.Title,
 		Content:   payload.Content,
 		Image:     payload.Image,
-		User:      currentUser.ID,
+		// User:      currentUser.ID,
 		CreatedAt: updatedPost.CreatedAt,
 		UpdatedAt: now,
 	}
