@@ -23,6 +23,7 @@ Basic-Go-App is an application REST API that enable users to CREATE, READ, UPDAT
 ### Usage
 
 - Make sure postgre container is running (by running docker compose up)
+- Run go run migrate/migrate.go to initiation setting based on this app conf and tracking postgreDB
 - Run go run main.go to start the application
 - Connect to the API using Postman on port 8000 (based on PORT configuration in app.env file).
 
